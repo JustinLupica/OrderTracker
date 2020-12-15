@@ -1,0 +1,1 @@
+Date::DATE_FORMATS[:stamp] = "%m/%d/%y"
