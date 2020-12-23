@@ -1,0 +1,12 @@
+<h1><%= @customer.first_name + " " + @customer.last_name %></h1>
+
+<% if @customer.orders.nil? %>
+    <%= "This customer has no orders yet!" %>
+<% else %>
+   <p><%= @customer.orders.count %> Order(s) for this customer </p> <br>
+   <% @customer.orders.last.products.each do |p| %>
+    <%= p.category %> <br>
+    <%= p.size %> <br>
+    <%= p.flavor %>
+<% end %>
+<% end %>

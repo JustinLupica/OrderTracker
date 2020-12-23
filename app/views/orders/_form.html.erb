@@ -1,0 +1,38 @@
+<%= form_for(@order) do |f| %>
+
+    <p>
+        <%= f.label :pickup_date %>
+        <%= f.datetime_field :pickup_date %>
+    </p>
+
+    <%= f.fields_for :customer do |c| %>
+        <%= c.label :first_name %>
+        <%= c.text_field :first_name %>
+        <%= c.label :last_name %>
+        <%= c.text_field :last_name %>
+    <% end %>
+
+    
+    <table class="styled-table">
+        <tr>
+            <th></th>
+            <th>Category</th>
+            <th>Size</th>
+            <th>Flavor</th>
+            <th>Current Quantity</th>
+        </tr>
+        <% Product.all.each do |p| %>
+        <tr>
+            <td><input type="checkbox" name="order[product_ids][]" value="<%= p.id %>" id="product_id_<%= p.id %>"></td>
+            <td><%= p.category %></td>
+            <td><%= p.size %></td>
+            <td><%= p.flavor %></td>
+            <td><%= p.current_quantity %></td>
+        </tr>
+        <% end %>
+    </table>
+    
+        
+    <%= f.submit %>
+
+<% end %>
