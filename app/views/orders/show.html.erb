@@ -1,12 +1,31 @@
 <h1><%= @order.pickup_date.strftime("%m/%d/%y") %></h1>
-   <%= link_to @order.customer.first_name + " " + @order.customer.last_name, customer_path(@order.customer) %> <br> <br>
+   <h2><%= link_to @order.customer.first_name + " " + @order.customer.last_name, customer_path(@order.customer) %></h2> <br>
 <% if @order.products.nil? %>
    <label>No products associated with this order..</label>
 <% else %>
-   <% @order.products.each do |product| %>
-   <%= product.category %> <br>
-   <%= product.size %> <br>
-   <%= product.flavor %> <br>
+<h3><%= "Order #" + @order.id.to_s %></h3>
+<h3><%= @order.customer.first_name + "'s order has " + @order.products.count.to_s + " products" %></h3>
+
+<table class="table table-hover table-striped">
+  <tr>
+    <th>Product ID</th>
+    <th>Category</th>
+    <th>Size</th>
+    <th>Flavor</th>
+  </tr>
+  <% @order.products.all.each do |product| %>
+  <tr>
+    <td><%= product.id %>
+    <td><%= product.category %></td>
+    <td><%= product.size %></td>
+    <td><%= product.flavor %></td>
+  </tr>
+  <% end %>
+</table>
+
+<%= button_to "Edit", edit_order_path, :method => "get", :class => "btn btn-info" %>
+<%= form_tag order_path(@order.id), method: "delete" do %>
+<%= submit_tag("Delete This Order", :class => "btn btn-danger") %>
 <% end %>
-<%= link_to "Edit", edit_order_path %>
+
 <% end %>

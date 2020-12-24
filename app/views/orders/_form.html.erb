@@ -1,18 +1,20 @@
 <%= form_for(@order) do |f| %>
-
-    <p>
+    <div class="form-group">
         <%= f.label :pickup_date %>
-        <%= f.datetime_field :pickup_date %>
-    </p>
-
+        <%= f.datetime_field :pickup_date, :class => "form-control" %>
+    </div>
+    <div class="form-group">
     <%= f.fields_for :customer do |c| %>
+        <%= c.hidden_field :customer_id, value: @customer_id %>
         <%= c.label :first_name %>
-        <%= c.text_field :first_name %>
+        <%= c.text_field :first_name, :class => "form-control" %>
+        </div>
+    <div class="form-group">
         <%= c.label :last_name %>
-        <%= c.text_field :last_name %>
+        <%= c.text_field :last_name, :class => "form-control" %>
     <% end %>
-
-    
+    </div>
+    <div class="form-group">
     <table class="styled-table">
         <tr>
             <th></th>
@@ -23,7 +25,7 @@
         </tr>
         <% Product.all.each do |p| %>
         <tr>
-            <td><input type="checkbox" name="order[product_ids][]" value="<%= p.id %>" id="product_id_<%= p.id %>"></td>
+            <td><input type="checkbox" class="form-check-input" name="order[product_ids][]" value="<%= p.id %>" id="product_id_<%= p.id %>"></td>
             <td><%= p.category %></td>
             <td><%= p.size %></td>
             <td><%= p.flavor %></td>
@@ -31,8 +33,8 @@
         </tr>
         <% end %>
     </table>
+    </div>
     
-        
-    <%= f.submit %>
-
+    <input type="submit" value="Create Order" class="btn btn-primary">
+    
 <% end %>

@@ -8,10 +8,12 @@
   </head>
 
   <body>
+  <%= button_to "View All Customers", customers_path, :method => "get", :class => "btn btn-default" %>
+  <%= button_to "View All Orders", orders_path, :method => "get", :class => "btn btn-default" %>
     <%= yield %>
   <footer>
   <% if current_user %>
-    <%= link_to "Logout", logout_path, method: :post%>
+    <%= button_to "Logout", logout_path, method: :post, :class => "btn btn-outline-danger" %>
     <br>
     <label>Logged in as: <%= session[:username] %></label>
   <% else %>

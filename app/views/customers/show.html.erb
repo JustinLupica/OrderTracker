@@ -4,9 +4,32 @@
     <%= "This customer has no orders yet!" %>
 <% else %>
    <p><%= @customer.orders.count %> Order(s) for this customer </p> <br>
-   <% @customer.orders.last.products.each do |p| %>
-    <%= p.category %> <br>
-    <%= p.size %> <br>
-    <%= p.flavor %>
+
+    <table class="table table-hover table-striped">
+        <tr>
+            <th>Order ID</th>
+            <th>Pickup Date</th>
+            <th>Product Category</th>
+            <th>Product Size</th>
+            <th>Product Flavor</th>
+            <th></th>
+        </tr>
+        <% @customer.orders.each do |order| %>
+           <% order.products.each do |product| %>
+        <tr>
+            <td><%= order.id %></td>
+            <td><%= order.pickup_date.strftime("%m/%d/%y") %></td>
+            <td><%= product.category %></td>
+            <td><%= product.size %></td>
+            <td><%= product.flavor %></td>
+            <td><%= link_to "View Order", order %></td>
+        </tr>
+        <% end %>
+        <% end %>
+    </table>
 <% end %>
+
+<%= form_tag customer_path(@customer.id), method: "delete", data: { confirm: "Are You Sure?" } do %>
+<%= submit_tag "Delete This Customer" %>
 <% end %>
+

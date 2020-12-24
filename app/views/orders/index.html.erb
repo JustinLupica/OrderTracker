@@ -1,10 +1,18 @@
+<h1>Order Log</h1>
 
-    <table class="styled-table">
+  <% form_tag orders_path do %>
+  <p>
+    <%= text_field_tag :search %>
+    <%= submit_tag "Search" %>
+  </p>
+  <% end %>
+
+    <table class="table table-hover table-striped">
   <tr>
-    <th>Order ID</th>
+    <th><%= sortable "id", "Order ID" %></th>
     <th>Customer ID</th>
     <th>Customer</th>
-    <th>Pickup Date</th>
+    <th><%= sortable "pickup_date", "Pickup Date" %></th>
     <th>Category</th>
     <th>Size</th>
     <th>Flavor</th>

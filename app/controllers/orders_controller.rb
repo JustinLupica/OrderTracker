@@ -1,12 +1,13 @@
 class OrdersController < ApplicationController
     before_action :current_user
+    helper_method :sort_column, :sort_direction
 
     def show
         @order = Order.find_by(id: params[:id])
     end
 
     def index
-        @orders = Order.all 
+        @orders = Order.with_future_date.order(sort_column + " " + sort_direction) 
     end
 
     def new
@@ -19,11 +20,12 @@ class OrdersController < ApplicationController
 
     def create
         @order = Order.new(order_params)
+        @order.customer = Customer.find_by(id: params[:order][:customer_attributes][:id])
         # @order.customer = Customer.find_or_create_by(id: params[:order][:customer][:id])
         # binding.pry
         if @order.save
             flash[:notice] = "Order created successfully"
-            redirect_to customer_order_path(@order)
+            redirect_to order_path(@order)
         else
         @errors = @order.errors.full_messages
         render :new
@@ -43,12 +45,20 @@ class OrdersController < ApplicationController
     def destroy
         order = Order.find_by(params[:id])
         order.destroy
-        redirect_to orders_path
+        redirect_to customers_path
     end
 
     private
 
     def order_params
         params.require(:order).permit(:pickup_date, product_ids: [], customer_attributes: [:first_name, :last_name])
+    end
+
+    def sort_column
+        Order.column_names.include?(params[:sort]) ? params[:sort] : "pickup_date"
+    end
+
+    def sort_direction
+        %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
     end
 end
