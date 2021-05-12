@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-    before_action :current_user
+    before_action :authorize
     helper_method :sort_column, :sort_direction
 
     def show
@@ -7,7 +7,13 @@ class OrdersController < ApplicationController
     end
 
     def index
-        @orders = Order.with_future_date.order(sort_column + " " + sort_direction) 
+        if params[:filter] == "all-orders"
+            @orders = Order.order(sort_column + " " + sort_direction)
+        elsif params[:filter] == "past-orders"
+            @orders = Order.with_past_date.order(sort_column + " " + sort_direction) 
+        else
+            @orders = Order.with_future_date.order(sort_column + " " + sort_direction) 
+        end
     end
 
     def new

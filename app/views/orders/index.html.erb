@@ -7,6 +7,15 @@
   </p>
   <% end %>
 
+<%= form_tag(orders_path, :method => :get) do %>
+  <select name="filter">
+    <option value="all-orders">All Orders</option>
+    <option value="future-orders">Future Orders</option>
+    <option value="past-orders">Past Orders</option>
+  </select>
+  <%= submit_tag "Filter" %>
+  <% end %>
+
     <table class="table table-hover table-striped">
   <tr>
     <th><%= sortable "id", "Order ID" %></th>

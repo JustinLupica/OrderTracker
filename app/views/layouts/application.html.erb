@@ -13,7 +13,7 @@
     <%= yield %>
   <footer>
   <% if current_user %>
-    <%= button_to "Logout", logout_path, method: :post, :class => "btn btn-outline-danger" %>
+    <%= button_to "Logout", logout_path, :class => "btn btn-outline-danger" %>
     <br>
     <label>Logged in as: <%= session[:username] %></label>
   <% else %>
